@@ -1,33 +1,33 @@
 /* eslint-disable react/prop-types */
 import { useEffect, useState } from "react";
-import NewsItem from "./NewsItem";
+import NewsItem from "./NewsItem"
 import Spinner from "./Spinner";
 import PropTypes from "prop-types";
-import data  from "./api_data.json"
+import data  from "./jsonData.json"
 
-const News = (props) => {
+const NewsStatic = (props) => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
 
-  console.log(data);
 
-  const capitalizeFirstLetter = (string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
+//   const capitalizeFirstLetter = (string) => {
+//     return string.charAt(0).toUpperCase() + string.slice(1);
+//   };
 
   const updateNews = async () => {
     props.setProgress(10);
-    const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;    setLoading(true);
-    let data = await fetch(url);
+    // const url = `https://newsapi.org/v2/top-headlines?country=${props.country}&category=${props.category}&apiKey=${props.apiKey}&page=${page}&pageSize=${props.pageSize}`;    setLoading(true);
+    // let data = await fetch(url);
     props.setProgress(30);
-    let parsedData = await data.json();
+    // let parsedData = await data.json();
     props.setProgress(70);
-    setArticles(parsedData.articles);
+    setArticles(data.articles.slice((page - 1) * 9, page * 9)); // Fetch articles for the current page
 
-    const totalArticles = parsedData.totalResults;
-    setTotalPages(Math.ceil(totalArticles / props.pageSize));
+
+    // const totalArticles = data.totalResults;  //33
+    setTotalPages(Math.ceil(data.articles.length / props.pageSize));
 
     setLoading(false);
     props.setProgress(100);
@@ -37,7 +37,7 @@ const News = (props) => {
     updateNews();
     // eslint-disable-next-line
   }, [page]);
-
+   console.log(articles);
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
   };
@@ -91,7 +91,7 @@ const News = (props) => {
       <h1
         className={`text-center sm:text-xl  md:text-2xl p-2 font-semibold border-1 `}
       >
-        Newsomnia - Top <span className="font-bold">{capitalizeFirstLetter(props.category)}</span> Headlines
+        Newsomnia - Top Headlines
       </h1>
 
       {loading && <Spinner />}
@@ -125,16 +125,16 @@ const News = (props) => {
   );
 };
 
-News.defaultProps = {
+NewsStatic.defaultProps = {
   country: "in",
   pageSize: 9, // Set page size to 12 for 12 articles per page
   category: "general",
   };
   
-  News.propTypes = {
+  NewsStatic.propTypes = {
   country: PropTypes.string,
   pageSize: PropTypes.number,
   category: PropTypes.string,
   };
 
-export default News;
+export default NewsStatic;
