@@ -12,9 +12,9 @@ const NewsStatic = (props) => {
   const [totalPages, setTotalPages] = useState(0);
 
 
-//   const capitalizeFirstLetter = (string) => {
-//     return string.charAt(0).toUpperCase() + string.slice(1);
-//   };
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
 
   const updateNews = async () => {
     props.setProgress(10);
@@ -91,7 +91,7 @@ const NewsStatic = (props) => {
       <h1
         className={`text-center sm:text-xl  md:text-2xl p-2 font-semibold border-1 `}
       >
-        Newsomnia - Top Headlines
+        Newsomnia - Top {capitalizeFirstLetter(props.category)} Headlines
       </h1>
 
       {loading && <Spinner />}
