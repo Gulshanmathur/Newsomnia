@@ -1,4 +1,4 @@
-Check out this link to open into the browser: newsomnia.vercel.app
+Check out this link to open the browser: https://newsomnia.vercel.app/
 
 # React + Vite
 
